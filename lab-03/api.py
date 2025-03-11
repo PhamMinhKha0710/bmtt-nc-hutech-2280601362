@@ -14,17 +14,27 @@ def rsa_generate_keys():
 @app.route('/api/rsa/encrypt', methods=['POST'])
 def rsa_encrypt():
     data = request.json
-    message = data.get('message')
+    message = data.get('message')  # Changed from 'Message' to 'message' to match client code
     key_type = data.get('key_type')
     
+    # Validate message is not None
+    if message is None:
+        return jsonify({'error': 'Message is required'}), 400
+        
     private_key, public_key = rsa_cipher.load_keys()
-    key = public_key if key_type == 'public' else private_key if key_type == 'private' else None
-    
-    if not key:
-        return jsonify({'error': 'Invalid key type'})
+    if key_type == 'public':
+        key = public_key
+    elif key_type == 'private':
+        key = private_key
+    else:
+        return jsonify({'error': 'Invalid key type'}), 400
     
     encrypted_message = rsa_cipher.encrypt(message, key)
-    return jsonify({'encrypted_message': encrypted_message.hex()})
+    encrypted_hex = encrypted_message.hex()
+    return jsonify({'encrypted_message': encrypted_hex})
+
+
+
 
 @app.route('/api/rsa/decrypt', methods=['POST'])
 def rsa_decrypt():
