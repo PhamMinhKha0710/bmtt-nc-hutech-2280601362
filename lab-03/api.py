@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from cipher.rsa.rsa_cipher import RSACipher
 from cipher.ecc import ECCCipher
+import re
 
 app = Flask(__name__)
 
@@ -67,11 +68,21 @@ def rsa_verify_signature():
     data = request.json
     message = data.get('message')
     signature_hex = data.get('signature')
-    
-    public_key, _ = rsa_cipher.load_keys()
-    signature = bytes.fromhex(signature_hex)
-    is_verified = rsa_cipher.verify(message, signature, public_key)
-    
+
+    if not signature_hex or not re.fullmatch(r'[0-9a-fA-F]+', signature_hex):
+        return jsonify({'is_verified': False, 'error': 'Invalid hex string'}), 400
+
+    try:
+        signature = bytes.fromhex(signature_hex)
+    except ValueError as e:
+        return jsonify({'is_verified': False, 'error': f'Invalid signature format: {str(e)}'}), 400
+
+    try:
+        public_key, _ = rsa_cipher.load_keys()
+        is_verified = rsa_cipher.verify(message, signature, public_key)
+    except Exception as e:
+        return jsonify({'is_verified': False, 'error': f'Verification error: {str(e)}'}), 400
+
     return jsonify({'is_verified': is_verified})
 
 
