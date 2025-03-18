@@ -22,7 +22,7 @@ class WebSocketClient:
             ping_timeout=30,
         )
 
-    def maybe_retry_connection(self, future) -> None:
+    def maybe_retry_connection(self, future) -> None: #add 
         try:
             self.connection = future.result()
         except:
