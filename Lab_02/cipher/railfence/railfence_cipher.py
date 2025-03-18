@@ -20,27 +20,27 @@ class RailFenceCipher:
         rail_lengths = [0] * num_rails
         rail_index = 0
         direction = 1
-        for char in range(len(cipher_text)):
-            rail_lengths[0] += 1
+        for _ in range(len(cipher_text)):
+            rail_lengths[rail_index] += 1
             if rail_index == 0:
                 direction = 1
             elif rail_index == num_rails - 1:
                 direction = -1
             rail_index += direction
         
-        rail = []
+        rails = []
         start = 0
         for length in rail_lengths:
             rails.append(cipher_text[start:start + length])
             start += length
         
         plain_text = ""
-        reail_index = 0
+        rail_index = 0
         direction = 1
          
         for _ in range(len(cipher_text)):
-            plain_text +=rail_index[0]
-            rail[rail_index] = railks[rail_index][1:]
+            plain_text += rails[rail_index][0]
+            rails[rail_index] = rails[rail_index][1:]
             if rail_index == 0:
                 direction = 1
             elif rail_index == num_rails - 1:
