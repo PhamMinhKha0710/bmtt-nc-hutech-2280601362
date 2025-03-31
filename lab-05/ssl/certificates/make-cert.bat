@@ -1,0 +1,1 @@
+openssl req -new -x54 -nodes -newkey rsa:2048 -nodes -keyout server-key.key -out server-req.csr -days 365 -config server-req.cnf
