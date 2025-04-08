@@ -1,0 +1,11 @@
+import hashlib
+
+def calculate_sha256_hash(data):
+    sha256_hash = hashlib.sha256()
+    sha256_hash.update(data.encode('utf-8'))
+    return sha256_hash.hexdigest()
+
+data_to_hash = input("Nhap du lieu can hash: ")
+hash_value = calculate_sha256_hash(data_to_hash)
+print(f"SHA-256 hash cua '{data_to_hash}' la: {hash_value}")
+    
