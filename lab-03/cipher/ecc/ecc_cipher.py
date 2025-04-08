@@ -37,7 +37,8 @@ class ECCCipher:
 
     def verify(self, message, signature, key):
         """Xác minh chữ ký với khóa công khai"""
+        _, vk = self.load_keys()
         try:
-            return key.verify(signature, message.encode('ascii'))
+            return vk.verify(signature, message.encode('ascii'))
         except ecdsa.BadSignatureError:
             return False

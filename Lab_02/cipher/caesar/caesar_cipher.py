@@ -9,13 +9,10 @@ class CaesarCipher:
         text = text.upper()
         encrypted_text = []
         for letter in text :
-            if letter in self.alphabet:
-                letter_index = self.alphabet.index(letter)
-                output_index = (letter_index + key) % alphabet_len
-                output_index = self.alphabet[output_index]
-                encrypted_text.append(output_index)
-            else:
-                encrypted_text.append(letter)  # Preserve spaces and other characters
+            letter_index = self.alphabet.index(letter)
+            output_index = (letter_index + key) % alphabet_len
+            output_index = self.alphabet[output_index]
+            encrypted_text.append(output_index)
         return "".join(encrypted_text)
 
     def decrypt_text(self,text : str, key : int) -> str:
@@ -23,13 +20,10 @@ class CaesarCipher:
         text = text.upper()
         decrypted_text = []
         for letter in text :
-            if letter in self.alphabet:
-                letter_index = self.alphabet.index(letter)
-                output_index = (letter_index - key) % alphabet_len 
-                output_index = self.alphabet[output_index]
-                decrypted_text.append(output_index)
-            else:
-                decrypted_text.append(letter)  # Preserve spaces and other characters
+            letter_index = self.alphabet.index(letter)
+            output_index = (letter_index - key) % alphabet_len 
+            output_index = self.alphabet[output_index]
+            decrypted_text.append(output_index)
         return "".join(decrypted_text)
 
         
